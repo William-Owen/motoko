@@ -1,0 +1,15 @@
+.Page {
+	--size-pageWidth: 1200px;
+
+	display: block;
+	padding: 1rem;
+	width: 100%;
+}
+
+.restrictWidth {
+	max-width: var(--size-pageWidth);
+}
+
+.center {
+	margin: 0 auto;
+}

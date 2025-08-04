@@ -1,0 +1,7 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+import { marked } from 'marked'
+import ReadmeRaw from '../../README.md?raw'
+
+<Meta title="Documentation/Overview" />
+
+<div dangerouslySetInnerHTML={{ __html: marked(ReadmeRaw) }} />

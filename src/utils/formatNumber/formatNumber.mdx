@@ -1,0 +1,288 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Utils/Format/formatNumber" />
+
+# formatNumber Utility Functions
+
+A comprehensive collection of number formatting utilities for various use cases including pretty printing, file sizes, currencies, and percentages.
+
+## Installation
+
+```typescript
+import formatNumber from 'motoko/utils'
+```
+
+## API
+
+```typescript
+formatNumber.pretty(num: number, fixed?: number | null): string
+formatNumber.international(num: number): string
+formatNumber.fileSize(bytes: number | string | bigint, type?: "valueOnly" | "unitOnly" | "full"): string
+formatNumber.bytesAngCostPerMonthGbToCostPerMonth(bytes: number | string, costPerGb: number): string
+formatNumber.percentage(value: number): string
+formatNumber.currency(amount: number): string
+```
+
+## Functions
+
+### formatNumber.pretty()
+
+Abbreviates numbers with 'k' for thousands and 'm' for millions.
+
+```typescript
+// Large numbers
+formatNumber.pretty(1500)
+// Result: "1.5k"
+
+formatNumber.pretty(2500000)
+// Result: "2.5m"
+
+formatNumber.pretty(999)
+// Result: "999"
+
+// With fixed decimals for numbers under 1000
+formatNumber.pretty(123, 2)
+// Result: "123.00"
+
+formatNumber.pretty(123, null)
+// Result: "123"
+```
+
+### formatNumber.international()
+
+Formats numbers using locale-specific thousand separators.
+
+```typescript
+formatNumber.international(1000)
+// Result: "1,000" (in en-US locale)
+
+formatNumber.international(1234567)
+// Result: "1,234,567"
+
+formatNumber.international(100)
+// Result: "100"
+```
+
+### formatNumber.fileSize()
+
+Converts bytes to appropriate file size units (Bytes, KB, MB, GB, TB, PB, EB, ZB, YB).
+
+```typescript
+// Full formatting (default)
+formatNumber.fileSize(1024)
+// Result: "1 KB"
+
+formatNumber.fileSize(1048576)
+// Result: "1 MB"
+
+formatNumber.fileSize(1125899906842624n)
+// Result: "1 PB"
+
+// Value only
+formatNumber.fileSize(1536, "valueOnly")
+// Result: "1.5"
+
+// Unit only
+formatNumber.fileSize(1024, "unitOnly")
+// Result: "KB"
+
+// String input
+formatNumber.fileSize("2048")
+// Result: "2 KB"
+
+// Edge cases
+formatNumber.fileSize(0)
+// Result: "0 Bytes"
+```
+
+### formatNumber.bytesAngCostPerMonthGbToCostPerMonth()
+
+Calculates monthly cost based on bytes usage and cost per GB pricing.
+
+```typescript
+const oneGB = 1024 * 1024 * 1024
+
+formatNumber.bytesAngCostPerMonthGbToCostPerMonth(oneGB, 0.1)
+// Result: "$0.10"
+
+formatNumber.bytesAngCostPerMonthGbToCostPerMonth(oneGB * 2.5, 0.15)
+// Result: "$0.38"
+
+formatNumber.bytesAngCostPerMonthGbToCostPerMonth("1073741824", 0.05)
+// Result: "$0.05"
+```
+
+### formatNumber.percentage()
+
+Formats numbers as percentages with one decimal place.
+
+```typescript
+formatNumber.percentage(75)
+// Result: "75.0%"
+
+formatNumber.percentage(33.333)
+// Result: "33.3%"
+
+formatNumber.percentage(0)
+// Result: "0%"
+
+formatNumber.percentage(NaN)
+// Result: "0%"
+```
+
+### formatNumber.currency()
+
+Formats numbers as US currency with proper formatting.
+
+```typescript
+formatNumber.currency(1234.56)
+// Result: "$1,234.56"
+
+formatNumber.currency(100)
+// Result: "$100.00"
+
+formatNumber.currency(0)
+// Result: "$0.00"
+
+formatNumber.currency(-50.25)
+// Result: "-$50.25"
+
+formatNumber.currency(1000000)
+// Result: "$1,000,000.00"
+```
+
+## Common Usage Patterns
+
+### Dashboard Statistics
+```typescript
+const StatCard = ({ label, value, type }: {
+  label: string
+  value: number
+  type: 'number' | 'currency' | 'percentage'
+}) => (
+  <div>
+    <h3>{label}</h3>
+    <p>
+      {type === 'number' && formatNumber.pretty(value)}
+      {type === 'currency' && formatNumber.currency(value)}
+      {type === 'percentage' && formatNumber.percentage(value)}
+    </p>
+  </div>
+)
+```
+
+### File Upload Display
+```typescript
+const FileUpload = ({ file }: { file: File }) => (
+  <div>
+    <span>{file.name}</span>
+    <span>{formatNumber.fileSize(file.size)}</span>
+  </div>
+)
+```
+
+### Data Table Formatting
+```typescript
+const columns = [
+  {
+    header: 'Downloads',
+    accessor: (row: any) => formatNumber.pretty(row.downloads)
+  },
+  {
+    header: 'File Size',
+    accessor: (row: any) => formatNumber.fileSize(row.size)
+  },
+  {
+    header: 'Revenue',
+    accessor: (row: any) => formatNumber.currency(row.revenue)
+  },
+  {
+    header: 'Conversion',
+    accessor: (row: any) => formatNumber.percentage(row.conversion)
+  }
+]
+```
+
+### API Response Formatting
+```typescript
+const formatApiData = (data: any) => ({
+  ...data,
+  prettyViews: formatNumber.pretty(data.views),
+  fileSize: formatNumber.fileSize(data.bytes),
+  monthlyCost: formatNumber.bytesAngCostPerMonthGbToCostPerMonth(data.bytes, 0.1),
+  successRate: formatNumber.percentage(data.successRate)
+})
+```
+
+## Input Types
+
+### Number Types
+- **Standard numbers**: `1000`, `1.5`, `-50.25`
+- **Scientific notation**: `1e6`, `2.5e-3`
+- **Infinity/NaN**: Handled gracefully where appropriate
+
+### String Types (fileSize, bytesAngCostPerMonthGbToCostPerMonth)
+- **Numeric strings**: `"1024"`, `"2048"`
+- **Large numbers**: For values exceeding JavaScript's safe integer limit
+
+### BigInt Types (fileSize)
+- **Large file sizes**: `1125899906842624n`
+- **Precise calculations**: For exact byte calculations
+
+## File Size Units
+
+The `fileSize` function supports the following units:
+- **Bytes** (0-1023 bytes)
+- **KB** (Kilobytes, 1024 bytes)
+- **MB** (Megabytes, 1024² bytes)
+- **GB** (Gigabytes, 1024³ bytes)
+- **TB** (Terabytes, 1024⁴ bytes)
+- **PB** (Petabytes, 1024⁵ bytes)
+- **EB** (Exabytes, 1024⁶ bytes)
+- **ZB** (Zettabytes, 1024⁷ bytes)
+- **YB** (Yottabytes, 1024⁸ bytes)
+
+## Localization
+
+### Current Support
+- **Currency**: US dollars (USD) only
+- **Number formatting**: Uses browser's locale for `international()`
+- **Decimal separator**: Uses locale-specific formatting
+
+### Extending for Other Locales
+```typescript
+// For other currencies, extend the currency function
+const formatEuro = (amount: number) =>
+  new Intl.NumberFormat('de-DE', {
+    style: 'currency',
+    currency: 'EUR'
+  }).format(amount)
+```
+
+## Performance Considerations
+
+- **Lightweight**: All functions are pure with minimal overhead
+- **BigInt support**: Handles large numbers efficiently in `fileSize()`
+- **Browser APIs**: Uses native `Intl.NumberFormat` for optimal performance
+- **Memory efficient**: No internal caching, suitable for high-frequency use
+
+## Error Handling
+
+- **Invalid inputs**: Functions handle edge cases gracefully
+- **NaN/Infinity**: Returns appropriate fallback values
+- **Type coercion**: Automatic string-to-number conversion where supported
+- **Zero values**: Special handling for zero in `fileSize()` and `percentage()`
+
+## Best Practices
+
+1. **Consistent formatting**: Use these utilities for all number display
+2. **Appropriate precision**: Choose the right function for your use case
+3. **Performance**: Safe to use in render functions and loops
+4. **Accessibility**: Formatted numbers are screen reader friendly
+5. **Internationalization**: Consider locale requirements for global applications
+
+## Browser Support
+
+- **Intl.NumberFormat**: All modern browsers + IE11
+- **BigInt**: Chrome 67+, Firefox 68+, Safari 14+
+- **Fallback**: Graceful degradation for older browsers

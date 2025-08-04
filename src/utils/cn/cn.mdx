@@ -1,0 +1,100 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Utils/cn (ClassNames)" />
+
+# cn (ClassNames) Utility Function
+
+The `cn` utility function is a lightweight, performant solution for combining class names with conditional logic.
+
+## Installation
+
+```typescript
+import cn from 'motoko/utils'
+```
+
+## API
+
+```typescript
+type Argument = string | boolean | null | undefined | number
+
+cn(...args: Argument[]): string
+```
+
+## Examples
+
+### Basic Usage
+```typescript
+// Basic conditional classes
+cn('btn', true && 'active', false && 'disabled', 'large')
+// Result: "btn active large"
+
+// Falsy value filtering
+cn('btn', null, undefined, false, 'primary')
+// Result: "btn primary"
+```
+
+## Performance Notes
+
+- Uses traditional for loops instead of for-of for ~20-40% better performance
+- Single-pass algorithm with minimal string operations
+- Optimized for common React component patterns
+
+## Common Patterns
+
+### Conditional Classes
+```typescript
+const className = cn(
+  'base-class',
+  isActive && 'active',
+  isDisabled && 'disabled',
+  variant && `variant-${variant}`
+)
+```
+
+### CSS Modules
+```typescript
+import styles from './Component.module.scss'
+
+const className = cn(
+  styles.base,
+  isError && styles.error,
+  props.className
+)
+```
+
+### Component Props
+```typescript
+interface ButtonProps {
+  variant: 'primary' | 'secondary'
+  disabled?: boolean
+  className?: string
+}
+
+const Button = ({ variant, disabled, className, ...props }: ButtonProps) => (
+  <button
+    className={cn('btn', `btn--${variant}`, disabled && 'btn--disabled', className)}
+    {...props}
+  />
+)
+```
+
+## Migration from clsx/classnames
+
+Direct replacement for most use cases:
+
+```typescript
+// Before (clsx)
+import clsx from 'clsx'
+const className = clsx('btn', isActive && 'active')
+
+// After (cn)
+import cn from 'motoko/utils'
+const className = cn('btn', isActive && 'active')
+```
+
+## Best Practices
+
+1. **Order matters**: Place base classes first, then conditional classes
+2. **Use with CSS Modules**: Perfect for scoped styling
+3. **Component composition**: Always accept `className` prop for extensibility
+4. **Performance**: Prefer `cn` over template literals for conditional classes

@@ -1,0 +1,15 @@
+pre-commit:
+  commands:
+    biome-check:
+      run: pnpm biome check src/ --write --no-errors-on-unmatched --files-ignore-unknown=true --colors=off {staged_files}
+      stage_fixed: true
+pre-push:
+  commands:
+    biome-check:
+      run: pnpm biome check src/ --no-errors-on-unmatched --files-ignore-unknown=true --colors=off
+    test:
+      run: pnpm run test
+    test-coverage:
+      run: pnpm run test:coverage
+    knip-check:
+      run: pnpm knip

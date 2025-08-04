@@ -1,0 +1,178 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Utils/cssBoxSpacing" />
+
+# cssBoxSpacing Utility Function
+
+Converts box model spacing values to CSS string format using CSS shorthand rules.
+
+## Installation
+
+```typescript
+import cssBoxSpacing from 'motoko/utils'
+```
+
+## API
+
+```typescript
+type TBoxModelSpacing = number | [number, number] | [number, number, number] | [number, number, number, number]
+type TCssUnit = "px" | "rem" | "em" | "%" | "vh" | "vw" | ... // See full list below
+
+cssBoxSpacing(spacing: TBoxModelSpacing, unit: TCssUnit = "rem"): string | undefined
+```
+
+## Examples
+
+### Basic Usage
+```typescript
+// Single value - applies to all sides
+cssBoxSpacing(10)
+// Result: "10rem"
+
+// Two values - [top/bottom, left/right]
+cssBoxSpacing([10, 20])
+// Result: "10rem 20rem"
+
+// Three values - [top, left/right, bottom]
+cssBoxSpacing([5, 10, 15])
+// Result: "5rem 10rem 15rem"
+
+// Four values - [top, right, bottom, left]
+cssBoxSpacing([5, 10, 15, 20])
+// Result: "5rem 10rem 15rem 20rem"
+```
+
+### Different Units
+```typescript
+// Pixels
+cssBoxSpacing(8, "px")
+// Result: "8px"
+
+// Percentage
+cssBoxSpacing([10, 20], "%")
+// Result: "10% 20%"
+
+// Viewport units
+cssBoxSpacing([1, 2, 3, 4], "vh")
+// Result: "1vh 2vh 3vh 4vh"
+```
+
+### Null/Undefined Handling
+```typescript
+cssBoxSpacing(null)
+// Result: undefined
+
+cssBoxSpacing(undefined)
+// Result: undefined
+```
+
+## CSS Box Model Spacing Rules
+
+Follows standard CSS shorthand property rules:
+
+- **1 value**: `margin: 10px` → all sides
+- **2 values**: `margin: 10px 20px` → top/bottom, left/right
+- **3 values**: `margin: 10px 20px 15px` → top, left/right, bottom
+- **4 values**: `margin: 10px 20px 15px 25px` → top, right, bottom, left (clockwise)
+
+## Supported CSS Units
+
+### Absolute Units
+- `px` - Pixels
+- `pt` - Points (1/72 inch)
+- `pc` - Picas (12 points)
+- `in` - Inches
+- `cm` - Centimeters
+- `mm` - Millimeters
+- `Q` - Quarter-millimeters
+- `%` - Percentage
+
+### Font-Relative Units
+- `em` - Relative to font-size of element
+- `rem` - Relative to font-size of root element
+- `ex` - Relative to x-height of font
+- `ch` - Relative to width of "0" character
+- `cap` - Relative to cap height (Firefox only)
+- `ic` - Relative to width of "水" character (Chrome/Edge)
+- `lh` - Relative to line height (Chrome/Edge/Safari)
+- `rlh` - Relative to root line height (Chrome/Edge/Safari)
+
+### Viewport Units
+- `vh` - 1% of viewport height
+- `vw` - 1% of viewport width
+- `vmin` - 1% of viewport's smaller dimension
+- `vmax` - 1% of viewport's larger dimension
+- `svh` - Small viewport height
+- `svw` - Small viewport width
+- `lvh` - Large viewport height
+- `lvw` - Large viewport width
+- `dvh` - Dynamic viewport height
+- `dvw` - Dynamic viewport width
+
+### Container Query Units
+- `cqw` - 1% of container width
+- `cqh` - 1% of container height
+- `cqi` - 1% of container inline size
+- `cqb` - 1% of container block size
+- `cqmin` - Smaller of cqi or cqb
+- `cqmax` - Larger of cqi or cqb
+
+## Common Usage Patterns
+
+### Component Styling
+```typescript
+interface ComponentProps {
+  margin?: TBoxModelSpacing
+  padding?: TBoxModelSpacing
+}
+
+const Component = ({ margin, padding }: ComponentProps) => (
+  <div
+    style={{
+      margin: cssBoxSpacing(margin),
+      padding: cssBoxSpacing(padding, "px")
+    }}
+  >
+    Content
+  </div>
+)
+```
+
+### CSS-in-JS Integration
+```typescript
+const styles = {
+  container: {
+    margin: cssBoxSpacing([10, 20, 30, 40]),
+    padding: cssBoxSpacing(16, "px")
+  }
+}
+```
+
+### Design System Integration
+```typescript
+const spacing = {
+  xs: 4,
+  sm: 8,
+  md: 16,
+  lg: 24,
+  xl: 32
+}
+
+// Usage
+cssBoxSpacing([spacing.md, spacing.lg])
+// Result: "16rem 24rem"
+```
+
+## Best Practices
+
+1. **Use rem by default**: Better for responsive design and accessibility
+2. **Consistent spacing scale**: Use design tokens for consistent spacing values
+3. **Null safety**: Function handles null/undefined gracefully
+4. **Performance**: Lightweight function with minimal overhead
+5. **Type safety**: Full TypeScript support for units and spacing values
+
+## Browser Support
+
+- **Container query units**: Chrome 106+, Firefox 110+, Safari 16.6+
+- **Dynamic viewport units**: Chrome 108+, Firefox 101+, Safari 15.4+
+- **All other units**: Widely supported across modern browsers

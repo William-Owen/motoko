@@ -1,0 +1,10 @@
+/* src/components/Page/PrimaryNavigation.module.css */
+.NameValue {
+	font-size: var(--f-size-2);
+	display: flex;
+	gap: 0.25rem;
+}
+
+.name {
+	font-weight: bold;
+}

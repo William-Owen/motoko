@@ -1,0 +1,7 @@
+onlyBuiltDependencies:
+  - '@bundled-es-modules/glob'
+  - '@parcel/watcher'
+  - esbuild
+  - lefthook
+  - oxc-resolver
+  - style-dictionary

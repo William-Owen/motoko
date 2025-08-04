@@ -1,0 +1,229 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Utils/Format/formatDate" />
+
+# formatDate Utility Functions
+
+A collection of date formatting utilities built on Day.js for consistent date handling across your application.
+
+## Installation
+
+```typescript
+import formatDate from 'motoko/utils'
+```
+
+## API
+
+```typescript
+type DateInput = Date | string | null | undefined
+
+formatDate.date(date: DateInput): string
+formatDate.dateTime(date: DateInput): string
+formatDate.difference(startDate: DateInput, endDate: DateInput): string
+```
+
+## Functions
+
+### formatDate.date()
+
+Formats a date to "DD MMM, YYYY" format.
+
+```typescript
+// Valid dates
+formatDate.date(new Date('2024-01-15'))
+// Result: "15 Jan, 2024"
+
+formatDate.date('2024-12-25')
+// Result: "25 Dec, 2024"
+
+formatDate.date('2024-01-15T14:30:00Z')
+// Result: "15 Jan, 2024"
+
+// Invalid/null inputs
+formatDate.date(null)
+// Result: ""
+
+formatDate.date(undefined)
+// Result: ""
+
+formatDate.date('invalid-date')
+// Result: ""
+```
+
+### formatDate.dateTime()
+
+Formats a date to "DD MMM, YYYY, HH:mm" format.
+
+```typescript
+// Valid dates with time
+formatDate.dateTime(new Date('2024-01-15T14:30:00'))
+// Result: "15 Jan, 2024, 14:30"
+
+formatDate.dateTime('2024-12-25T09:15:30')
+// Result: "25 Dec, 2024, 09:15"
+
+// Date without time defaults to 00:00
+formatDate.dateTime('2024-01-15')
+// Result: "15 Jan, 2024, 00:00"
+
+// Invalid inputs
+formatDate.dateTime(null)
+// Result: ""
+
+formatDate.dateTime('invalid-date')
+// Result: ""
+```
+
+### formatDate.difference()
+
+Calculates time difference between two dates in human-readable format.
+
+```typescript
+// Hours and minutes
+formatDate.difference('2024-01-15T10:00:00', '2024-01-15T12:30:00')
+// Result: "2h 30m"
+
+// Only hours
+formatDate.difference('2024-01-15T10:00:00', '2024-01-15T13:00:00')
+// Result: "3h"
+
+// Only minutes
+formatDate.difference('2024-01-15T10:00:00', '2024-01-15T10:15:00')
+// Result: "15min"
+
+// Same time
+formatDate.difference('2024-01-15T10:00:00', '2024-01-15T10:00:00')
+// Result: "< 1min"
+
+// Invalid inputs
+formatDate.difference(null, '2024-01-15T10:00:00')
+// Result: ""
+
+formatDate.difference('invalid', '2024-01-15T10:00:00')
+// Result: ""
+```
+
+## Common Usage Patterns
+
+### React Component Display
+```typescript
+interface EventProps {
+  startTime: string
+  endTime: string
+  createdAt: string
+}
+
+const EventCard = ({ startTime, endTime, createdAt }: EventProps) => (
+  <div>
+    <p>Created: {formatDate.date(createdAt)}</p>
+    <p>Start: {formatDate.dateTime(startTime)}</p>
+    <p>Duration: {formatDate.difference(startTime, endTime)}</p>
+  </div>
+)
+```
+
+### Table Data Formatting
+```typescript
+const columns = [
+  {
+    header: 'Date',
+    accessor: (row: any) => formatDate.date(row.date)
+  },
+  {
+    header: 'Created',
+    accessor: (row: any) => formatDate.dateTime(row.createdAt)
+  },
+  {
+    header: 'Duration',
+    accessor: (row: any) => formatDate.difference(row.startTime, row.endTime)
+  }
+]
+```
+
+### API Response Formatting
+```typescript
+const formatApiResponse = (data: any) => ({
+  ...data,
+  formattedDate: formatDate.date(data.timestamp),
+  formattedDateTime: formatDate.dateTime(data.createdAt),
+  duration: formatDate.difference(data.startTime, data.endTime)
+})
+```
+
+## Input Formats
+
+All functions accept multiple input formats:
+
+### Date Objects
+```typescript
+formatDate.date(new Date())
+formatDate.date(new Date('2024-01-15'))
+```
+
+### ISO Strings
+```typescript
+formatDate.date('2024-01-15T14:30:00Z')
+formatDate.date('2024-01-15T14:30:00.000Z')
+```
+
+### Date Strings
+```typescript
+formatDate.date('2024-01-15')
+formatDate.date('Jan 15, 2024')
+formatDate.date('15 Jan 2024')
+```
+
+### Timestamps
+```typescript
+formatDate.date('1705339800000') // Unix timestamp
+```
+
+## Error Handling
+
+All functions gracefully handle invalid inputs:
+
+- **Null/undefined**: Returns empty string `""`
+- **Invalid dates**: Returns empty string `""`
+- **Invalid strings**: Returns empty string `""`
+- **Type mismatches**: Returns empty string `""`
+
+This ensures your UI never displays broken date formatting.
+
+## Time Zone Considerations
+
+- Uses Day.js default behavior (local time zone)
+- ISO strings with timezone info are handled correctly
+- For UTC-specific formatting, consider extending with Day.js timezone plugin
+
+## Performance Notes
+
+- Built on Day.js for lightweight date manipulation
+- Functions are pure with no side effects
+- Minimal overhead for invalid input handling
+- Suitable for high-frequency usage (tables, lists)
+
+## Localization
+
+Current implementation uses English month abbreviations. To support other locales:
+
+```typescript
+import dayjs from 'dayjs'
+import 'dayjs/locale/fr'
+
+dayjs.locale('fr')
+// Functions will now use French month names
+```
+
+## Best Practices
+
+1. **Consistent formatting**: Use these utilities for all date display
+2. **Handle nulls gracefully**: Functions return empty strings for invalid inputs
+3. **Type safety**: Use DateInput type for function parameters
+4. **Performance**: Safe to use in render functions and loops
+5. **Validation**: Functions validate inputs automatically
+
+## Dependencies
+
+- **Day.js**: Lightweight date manipulation library
+- **Size**: ~2KB gzipped (Day.js core)
+- **Browser support**: All modern browsers + IE11

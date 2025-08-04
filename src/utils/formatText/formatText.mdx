@@ -1,0 +1,454 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Utils/Format/formatText" />
+
+# formatText Utility Functions
+
+A collection of text formatting utilities for common string operations including pluralization, case conversion, truncation, and text manipulation.
+
+## Installation
+
+```typescript
+import formatText from 'motoko/utils'
+```
+
+## API
+
+```typescript
+type TextInput = string
+
+formatText.pluralize(word: string, count: number, customPlural?: string): string
+formatText.camelCase(text: string): string
+formatText.kebabCase(text: string): string
+formatText.snakeCase(text: string): string
+formatText.titleCase(text: string): string
+formatText.truncate(text: string, maxLength: number, suffix?: string): string
+formatText.capitalize(text: string): string
+formatText.clean(text: string): string
+formatText.initials(text: string, maxInitials?: number): string
+formatText.countWithWord(count: number, word: string, customPlural?: string): string
+```
+
+## Functions
+
+### formatText.pluralize()
+
+Pluralizes a word based on count using English pluralization rules.
+
+```typescript
+// Regular pluralization
+formatText.pluralize('user', 5)
+// Result: "users"
+
+formatText.pluralize('box', 3)
+// Result: "boxes"
+
+formatText.pluralize('story', 2)
+// Result: "stories"
+
+// Singular form
+formatText.pluralize('user', 1)
+// Result: "user"
+
+// Custom plural
+formatText.pluralize('person', 3, 'people')
+// Result: "people"
+
+// Irregular plurals (built-in)
+formatText.pluralize('child', 3)
+// Result: "children"
+
+formatText.pluralize('mouse', 2)
+// Result: "mice"
+```
+
+### formatText.camelCase()
+
+Converts text to camelCase format.
+
+```typescript
+// Space-separated words
+formatText.camelCase('hello world')
+// Result: "helloWorld"
+
+// Hyphenated words
+formatText.camelCase('user-name')
+// Result: "userName"
+
+// Mixed case
+formatText.camelCase('My Title')
+// Result: "myTitle"
+
+// Already camelCase
+formatText.camelCase('userName')
+// Result: "userName"
+```
+
+### formatText.kebabCase()
+
+Converts text to kebab-case format.
+
+```typescript
+// Space-separated words
+formatText.kebabCase('Hello World')
+// Result: "hello-world"
+
+// camelCase
+formatText.kebabCase('userName')
+// Result: "user-name"
+
+// Mixed case with spaces
+formatText.kebabCase('My Title')
+// Result: "my-title"
+
+// Already kebab-case
+formatText.kebabCase('hello-world')
+// Result: "hello-world"
+```
+
+### formatText.snakeCase()
+
+Converts text to snake_case format.
+
+```typescript
+// Space-separated words
+formatText.snakeCase('Hello World')
+// Result: "hello_world"
+
+// camelCase
+formatText.snakeCase('userName')
+// Result: "user_name"
+
+// Mixed case
+formatText.snakeCase('My Title')
+// Result: "my_title"
+
+// Hyphenated words
+formatText.snakeCase('hello-world')
+// Result: "hello_world"
+```
+
+### formatText.titleCase()
+
+Converts text to Title Case format.
+
+```typescript
+// lowercase words
+formatText.titleCase('hello world')
+// Result: "Hello World"
+
+// Hyphenated words
+formatText.titleCase('user-name')
+// Result: "User Name"
+
+// Mixed case
+formatText.titleCase('API response')
+// Result: "API Response"
+
+// Snake case
+formatText.titleCase('user_profile')
+// Result: "User Profile"
+```
+
+### formatText.truncate()
+
+Truncates text to specified length with optional suffix.
+
+```typescript
+// Basic truncation
+formatText.truncate('Long text here', 10)
+// Result: "Long text..."
+
+// Short text (no truncation)
+formatText.truncate('Short', 10)
+// Result: "Short"
+
+// Custom suffix
+formatText.truncate('Long text here', 10, '…')
+// Result: "Long text…"
+
+// No suffix
+formatText.truncate('Long text here', 10, '')
+// Result: "Long text "
+```
+
+### formatText.capitalize()
+
+Capitalizes the first letter of a string.
+
+```typescript
+// lowercase text
+formatText.capitalize('hello world')
+// Result: "Hello world"
+
+// Already capitalized
+formatText.capitalize('Hello world')
+// Result: "Hello world"
+
+// All caps
+formatText.capitalize('API')
+// Result: "API"
+
+// Empty string
+formatText.capitalize('')
+// Result: ""
+```
+
+### formatText.clean()
+
+Removes extra whitespace and trims the text.
+
+```typescript
+// Extra spaces
+formatText.clean('  hello   world  ')
+// Result: "hello world"
+
+// Multiple newlines
+formatText.clean('line1\n\n\nline2')
+// Result: "line1\nline2"
+
+// Mixed whitespace
+formatText.clean(' \t hello \n world \t ')
+// Result: "hello world"
+```
+
+### formatText.initials()
+
+Extracts initials from a name or phrase.
+
+```typescript
+// Full name
+formatText.initials('John Doe')
+// Result: "JD"
+
+// Three names (limited to 2)
+formatText.initials('John Michael Doe')
+// Result: "JM"
+
+// Three names (with limit)
+formatText.initials('John Michael Doe', 3)
+// Result: "JMD"
+
+// Single name
+formatText.initials('John')
+// Result: "J"
+
+// Phrase
+formatText.initials('API Response Handler')
+// Result: "AR"
+```
+
+### formatText.countWithWord()
+
+Formats a count with its corresponding word.
+
+```typescript
+// Singular
+formatText.countWithWord(1, 'item')
+// Result: "1 item"
+
+// Plural
+formatText.countWithWord(5, 'user')
+// Result: "5 users"
+
+// Custom plural
+formatText.countWithWord(3, 'child', 'children')
+// Result: "3 children"
+
+// Zero count
+formatText.countWithWord(0, 'item')
+// Result: "0 items"
+```
+
+## Common Usage Patterns
+
+### React Component Display
+```typescript
+interface UserListProps {
+  users: User[]
+  isLoading: boolean
+}
+
+const UserList = ({ users, isLoading }: UserListProps) => (
+  <div>
+    <h2>{formatText.countWithWord(users.length, 'user')}</h2>
+    {users.map(user => (
+      <div key={user.id}>
+        <span>{formatText.initials(user.name)}</span>
+        <span>{formatText.titleCase(user.role)}</span>
+      </div>
+    ))}
+  </div>
+)
+```
+
+### Form Field Formatting
+```typescript
+const formatFormData = (data: any) => ({
+  username: formatText.camelCase(data.username),
+  displayName: formatText.titleCase(data.displayName),
+  slug: formatText.kebabCase(data.title),
+  description: formatText.clean(data.description)
+})
+```
+
+### API Endpoint Generation
+```typescript
+const generateEndpoints = (entityName: string) => ({
+  list: `/api/${formatText.kebabCase(entityName)}`,
+  create: `/api/${formatText.kebabCase(entityName)}`,
+  update: `/api/${formatText.kebabCase(entityName)}/:id`,
+  delete: `/api/${formatText.kebabCase(entityName)}/:id`
+})
+```
+
+### Table Data Formatting
+```typescript
+const columns = [
+  {
+    header: 'Name',
+    accessor: (row: any) => formatText.titleCase(row.name)
+  },
+  {
+    header: 'Description',
+    accessor: (row: any) => formatText.truncate(row.description, 50)
+  },
+  {
+    header: 'Status',
+    accessor: (row: any) => formatText.capitalize(row.status)
+  }
+]
+```
+
+### Notification Messages
+```typescript
+const generateNotification = (action: string, count: number, entityType: string) => ({
+  message: `${formatText.capitalize(action)} ${formatText.countWithWord(count, entityType)}`,
+  type: 'success'
+})
+
+// Usage
+generateNotification('deleted', 3, 'user')
+// Result: { message: "Deleted 3 users", type: "success" }
+```
+
+## Pluralization Rules
+
+The `pluralize` function handles common English pluralization patterns:
+
+### Regular Rules
+- **Standard**: `user` → `users`
+- **Ends with s/sh/ch/x/z**: `box` → `boxes`
+- **Ends with y (consonant + y)**: `story` → `stories`
+- **Ends with f**: `leaf` → `leaves`
+- **Ends with fe**: `knife` → `knives`
+
+### Irregular Forms (Built-in)
+- `person` → `people`
+- `child` → `children`
+- `foot` → `feet`
+- `tooth` → `teeth`
+- `mouse` → `mice`
+- `man` → `men`
+- `woman` → `women`
+- `goose` → `geese`
+- `ox` → `oxen`
+
+### Custom Plurals
+```typescript
+formatText.pluralize('octopus', 2, 'octopi')
+formatText.pluralize('datum', 5, 'data')
+formatText.pluralize('criterion', 3, 'criteria')
+```
+
+## Case Conversion Examples
+
+### From camelCase
+```typescript
+const camelText = 'myVariableName'
+formatText.kebabCase(camelText)    // "my-variable-name"
+formatText.snakeCase(camelText)    // "my_variable_name"
+formatText.titleCase(camelText)    // "My Variable Name"
+```
+
+### From Title Case
+```typescript
+const titleText = 'My Variable Name'
+formatText.camelCase(titleText)    // "myVariableName"
+formatText.kebabCase(titleText)    // "my-variable-name"
+formatText.snakeCase(titleText)    // "my_variable_name"
+```
+
+### From kebab-case
+```typescript
+const kebabText = 'my-variable-name'
+formatText.camelCase(kebabText)    // "myVariableName"
+formatText.snakeCase(kebabText)    // "my_variable_name"
+formatText.titleCase(kebabText)    // "My Variable Name"
+```
+
+## Error Handling
+
+All functions gracefully handle edge cases:
+
+- **Empty strings**: Return empty string or appropriate default
+- **Null/undefined**: May cause errors - ensure valid string input
+- **Non-string inputs**: May cause errors - functions expect string inputs
+- **Unicode characters**: Basic support, complex Unicode may need additional handling
+
+## Performance Notes
+
+- All functions are pure with no side effects
+- Minimal regex usage for optimal performance
+- Suitable for high-frequency usage (tables, lists, forms)
+- No external dependencies beyond basic JavaScript
+
+## Best Practices
+
+1. **Input validation**: Ensure inputs are valid strings
+2. **Consistent formatting**: Use these utilities for all text transformations
+3. **Combine functions**: Chain operations for complex formatting
+4. **Custom plurals**: Use custom plurals for domain-specific terms
+5. **Localization**: Consider extending for non-English pluralization rules
+
+## Browser Support
+
+- **Modern browsers**: Full support
+- **IE11**: Full support
+- **Node.js**: Full support
+- **Size**: ~1KB minified + gzipped
+- **Dependencies**: None
+
+## Extension Examples
+
+### Custom Pluralization Rules
+```typescript
+const customPluralize = (word: string, count: number) => {
+  const customRules = {
+    'data': 'data',      // data is both singular and plural
+    'sheep': 'sheep',    // sheep is both singular and plural
+    'fish': 'fish'       // fish is both singular and plural
+  }
+
+  if (customRules[word.toLowerCase()]) {
+    return customRules[word.toLowerCase()]
+  }
+
+  return formatText.pluralize(word, count)
+}
+```
+
+### Text Validation
+```typescript
+const validateAndFormat = (text: string, formatter: (text: string) => string) => {
+  if (!text || typeof text !== 'string') {
+    return ''
+  }
+
+  return formatter(text.trim())
+}
+
+// Usage
+validateAndFormat('  hello world  ', formatText.titleCase)
+// Result: "Hello World"
+```
