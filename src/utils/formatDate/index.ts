@@ -6,7 +6,7 @@ type DateInput = Date | string | null | undefined
 /**
  * Checks if a date is valid
  */
-const isValidDate = (date: Date): boolean => !isNaN(date.getTime())
+const isValidDate = (date: Date): boolean => !Number.isNaN(date.getTime())
 
 /**
  * Safely creates a Date object from various inputs
