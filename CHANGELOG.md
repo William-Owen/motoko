@@ -1,5 +1,17 @@
 # @william-owen/motoko
 
+## 0.2.2
+
+### Patch Changes
+
+- d199ea6: - Removed opinionated styling
+  - Added formatText to exports
+  - Addressed possible type coercion issue
+  - Removed day.js dependency
+  - Address types not being correctly determined for utils
+  - Correctly assigned marked as a dev dependency
+- 6df84af: Address frozen lockfile issues
+
 ## 0.2.1
 
 ### Patch Changes
