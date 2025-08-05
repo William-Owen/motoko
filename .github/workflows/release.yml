@@ -18,6 +18,7 @@ jobs:
       - run: pnpm install
       - run: pnpm build
       - name: Create Release PR or Release
+        id: changesets
         uses: changesets/action@v1
         with:
           version: pnpm changeset:version
@@ -27,11 +28,11 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Create GitHub Release
         if: steps.changesets.outputs.hasChangesets == 'false'
-        uses: actions/create-release@v1
+        run: |
+          VERSION=$(node -p "require('./package.json').version")
+          gh release create "v$VERSION" \
+            --title "Release v$VERSION" \
+            --generate-notes \
+            ./dist/*
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          tag_name: v${{ steps.package-version.outputs.version }}
-          release_name: Release v${{ steps.package-version.outputs.version }}
-          draft: false
-          prerelease: false
