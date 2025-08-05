@@ -52,7 +52,8 @@
 		"changeset": "changeset",
 		"changeset:version": "changeset version",
 		"changeset:publish": "changeset publish",
-		"preflight": "pnpm run biome:lint && pnpm run test:coverage && pnpm run test && pnpm run knip"
+		"installCheck": "pnpm install --frozen-lockfile",
+		"preflight": "pnpm run biome:lint && pnpm run test:coverage && pnpm run test && pnpm run knip && pnpm run installCheck"
 	},
 	"peerDependencies": {
 		"react": ">=18.0.0",
