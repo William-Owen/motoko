@@ -1,6 +1,6 @@
 {
 	"name": "@william-owen/motoko",
-	"version": "0.2.2",
+	"version": "0.3.0",
 	"description": "A modern React Component Library",
 	"publishConfig": {
 		"registry": "https://npm.pkg.github.com"

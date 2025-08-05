@@ -1,5 +1,12 @@
 # @william-owen/motoko
 
+## 0.3.0
+
+### Minor Changes
+
+- 5e4d62b: - New loading indicator
+  - Updates to storybook preview presentation
+
 ## 0.2.2
 
 ### Patch Changes
