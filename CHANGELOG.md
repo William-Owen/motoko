@@ -1,5 +1,12 @@
 # @william-owen/motoko
 
+## 0.4.0
+
+### Minor Changes
+
+- 23da0c8: Fixed exports and release notes.
+- 23da0c8: Fix release version
+
 ## 0.3.0
 
 ### Minor Changes
