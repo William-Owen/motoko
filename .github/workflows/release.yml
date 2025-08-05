@@ -17,9 +17,21 @@ jobs:
           cache: 'pnpm'
       - run: pnpm install
       - run: pnpm build
-      - name: Create Release PR or Publish
+      - name: Create Release PR or Release
         uses: changesets/action@v1
         with:
-          publish: pnpm changeset:publish
+          version: pnpm changeset:version
+          commit: 'Version packages'
+          title: 'Version packages'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Create GitHub Release
+        if: steps.changesets.outputs.hasChangesets == 'false'
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: v${{ steps.package-version.outputs.version }}
+          release_name: Release v${{ steps.package-version.outputs.version }}
+          draft: false
+          prerelease: false
