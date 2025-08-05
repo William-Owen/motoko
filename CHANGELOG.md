@@ -1,5 +1,11 @@
 # @william-owen/motoko
 
+## 0.2.1
+
+### Patch Changes
+
+- 0f0defc: Added release to github action
+
 ## 0.2.0
 
 ### Minor Changes
