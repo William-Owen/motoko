@@ -1,0 +1,15 @@
+.LoadingIndicator {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	padding: 1rem;
+	width: 100%;
+	height: 100%;
+
+	.icon {
+		width: var(--comp-icon-size);
+		max-width: var(--comp-icon-size);
+		fill: currentColor;
+	}
+}
