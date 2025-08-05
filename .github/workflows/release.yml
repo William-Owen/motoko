@@ -30,9 +30,10 @@ jobs:
         if: steps.changesets.outputs.hasChangesets == 'false'
         run: |
           VERSION=$(node -p "require('./package.json').version")
+          NOTES="$(sed -n "/^## $VERSION/,/^## /p" CHANGELOG.md | sed '1d;$d')"
           gh release create "v$VERSION" \
             --title "Release v$VERSION" \
-            --generate-notes \
+            --notes "$NOTES" \
             ./dist/*
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
