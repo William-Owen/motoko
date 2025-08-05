@@ -16,9 +16,9 @@
 			"require": "./dist/index.cjs"
 		},
 		"./utils": {
-			"types": "./dist/utils/index.d.ts",
-			"import": "./dist/utils/index.js",
-			"require": "./dist/utils/index.cjs"
+			"types": "./dist/utils.d.ts",
+			"import": "./dist/utils.js",
+			"require": "./dist/utils.cjs"
 		},
 		"./styles.css": "./dist/styles.css"
 	},
