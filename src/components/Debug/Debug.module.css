@@ -1,0 +1,33 @@
+.debug {
+	background: #111;
+	width: 600px;
+	border: 2px solid rgb(255, 234, 0);
+	padding: 2rem;
+	margin: 2rem;
+	border-radius: 10px;
+	display: flex;
+	justify-content: flex-end;
+	flex-direction: column;
+	gap: 1rem;
+	overflow: hidden;
+
+	h3 {
+		margin: 0 0 1em 0;
+		font-size: 28px;
+	}
+
+	pre {
+		border-top: 1px solid #333;
+		background: #222;
+		color: rgb(255, 234, 0);
+		padding: 2rem;
+		overflow-x: auto; /* Horizontal scroll only */
+		overflow-y: auto; /* Vertical scroll if needed */
+		width: calc(100% + 4rem);
+		height: auto;
+		max-height: 400px;
+		white-space: pre; /* Preserve formatting, no wrapping */
+		box-sizing: border-box; /* Includes padding in width calculation */
+		margin: 0 -2rem -2rem -2rem; /* Remove default margin */
+	}
+}

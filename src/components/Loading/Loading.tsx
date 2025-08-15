@@ -1,6 +1,6 @@
 import type { CSSProperties, FC } from "react"
 import cn from "../../utils/cn"
-import styles from "./LoadingIndicator.module.css"
+import styles from "./Loading.module.css"
 
 interface LoadingIndicatorProps {
 	/** Additional CSS class name */

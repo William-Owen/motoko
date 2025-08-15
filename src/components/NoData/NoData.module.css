@@ -1,0 +1,16 @@
+.NoData {
+	display: flex;
+	flex-direction: var(--NoData-direction);
+	justify-content: center;
+	align-items: center;
+	width: 100%;
+	height: 100%;
+	gap: var(--NoData-spacing-gap);
+	padding: var(--NoData-padding);
+
+	svg {
+		fill: var(--NoData-icon-fill-color);
+		width: var(--NoData-icon-size);
+		height: var(--NoData-icon-size);
+	}
+}

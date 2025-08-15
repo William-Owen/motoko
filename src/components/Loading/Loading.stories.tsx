@@ -1,9 +1,9 @@
 import type { Meta, StoryObj } from "@storybook/react"
-import LoadingIndicator from "."
+import Loading from "."
 
-const meta: Meta<typeof LoadingIndicator> = {
-	title: "Components/LoadingIndicator",
-	component: LoadingIndicator,
+const meta: Meta<typeof Loading> = {
+	title: "Components/Indicators/Loading",
+	component: Loading,
 	parameters: {
 		layout: "centered",
 	},
@@ -70,12 +70,12 @@ export const WithCustomClass: Story = {
 export const Sizes: Story = {
 	render: () => (
 		<div style={{ display: "flex", alignItems: "center", gap: "2rem" }}>
-			<LoadingIndicator size={0.75} aria-label="Extra small" />
-			<LoadingIndicator size={1} aria-label="Small" />
-			<LoadingIndicator size={1.5} aria-label="Medium" />
-			<LoadingIndicator size={2} aria-label="Default" />
-			<LoadingIndicator size={3} aria-label="Large" />
-			<LoadingIndicator size={4} aria-label="Extra large" />
+			<Loading size={0.75} aria-label="Extra small" />
+			<Loading size={1} aria-label="Small" />
+			<Loading size={1.5} aria-label="Medium" />
+			<Loading size={2} aria-label="Default" />
+			<Loading size={3} aria-label="Large" />
+			<Loading size={4} aria-label="Extra large" />
 		</div>
 	),
 	parameters: {

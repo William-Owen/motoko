@@ -8,8 +8,10 @@ The name Motoko is drawn from Major Motoko Kusanagi, the iconic cyborg protagoni
 
 ## Quick Start
 
+This project prefers PNPM as the package manager.
+
 ```bash
-npm install github:william-owen/motoko
+pnpm install github:william-owen/motoko
 ```
 
 ```tsx
@@ -25,9 +27,9 @@ const App = () => (
 ## Development
 
 ```bash
-npm run dev      # Start development (build + Storybook)
-npm test         # Run tests in watch mode
-npm run build    # Production build
+pnpm run dev      # Start development (build + Storybook)
+pnpm test         # Run tests in watch mode
+pnpm run build    # Production build
 ```
 
 ## Tech Stack
@@ -89,22 +91,27 @@ Component.displayName = 'Component'
 ## Available Scripts
 
 ### Development
-- `npm run dev` - Start development environment
-- `npm run storybook` - Component documentation
-- `npm test` - Run tests in watch mode
-- `npm run test:ui` - Visual test interface
+
+- `pnpm run dev` - Start development environment
+- `pnpm run storybook` - Component documentation
+- `pnpm test` - Run tests in watch mode
+- `pnpm run test:ui` - Visual test interface
 
 ### Quality
-- `npm run check:fix` - Format and lint
-- `npm run type-check` - TypeScript validation
-- `npm run validate` - Package validation
+
+- `pnpm run check:fix` - Format and lint
+- `pnpm run type-check` - TypeScript validation
+- `pnpm run validate` - Package validation
 
 ### Build & Release
-- `npm run build` - Production build
-- `npm run changeset` - Create release changeset
-- `npm run changeset:publish` - Publish to npm
+
+- `pnpm run build` - Production build
+- `pnpm run changeset` - Create release changeset
+- `pnpm run changeset:publish` - Publish to pnpm
 
 ## Development Workflow
+
+You can scaffold new components with `pnpm gen` which triggers a Plop generation script.
 
 1. **Create Component**: `src/components/ComponentName/`
 2. **Implement Tests**: `ComponentName.test.tsx`
@@ -112,6 +119,7 @@ Component.displayName = 'Component'
 4. **Export**: Add to `src/index.ts`
 
 ### Git Conventions
+
 - **Branches**: `feature/component-name`, `fix/issue-description`
 - **Commits**: Conventional commits format
 - **Pre-commit**: Automatic linting, formatting, type checking
@@ -153,16 +161,19 @@ Component.displayName = 'Component'
 ## Known Issues
 
 ### TypeScript 5.8
+
 **Issue**: Storybook compatibility
 **Workaround**: Using TypeScript 5.7.2
 
 ### CSS Modules in Tsup
+
 **Issue**: Experimental support
 **Workaround**: `@os023/tsup-css-module` plugin
 
 ## Contributing
 
 ### Code Review Checklist
+
 - [ ] TypeScript types are explicit
 - [ ] Tests cover behavior and edge cases
 - [ ] Storybook stories show all variants
@@ -170,6 +181,7 @@ Component.displayName = 'Component'
 - [ ] Documentation complete
 
 ### Requirements
+
 - **Junior**: HTML/CSS/JS fundamentals, basic React
 - **Mid-level**: TypeScript proficiency, testing experience
 - **Senior**: Build tooling, performance optimization
@@ -228,7 +240,7 @@ export default defineConfig({
 1. Changeset creation
 2. Automated versioning
 3. Changelog generation
-4. npm publication
+4. pnpm publication
 5. GitHub release
 
 </details>
@@ -238,16 +250,18 @@ export default defineConfig({
 <summary>Security & Dependencies</summary>
 
 ### Security Measures
+
 - Automated dependency updates
-- npm audit in CI
+- pnpm audit in CI
 - GitHub security advisories
 - CodeQL analysis
 - Verified package signatures
 
 ### Dependency Management
+
 - Renovate/Dependabot integration
 - License compliance checking
 - Supply chain security
-- Scoped npm tokens
+- Scoped pnpm tokens
 
 </details>

@@ -1,6 +1,14 @@
 import type { ComponentType, SVGProps } from "react"
 import cn from "../../utils/cn"
+import styleObject, { type TThemeObject } from "../../utils/styleObject"
 import styles from "./PageTitle.module.css"
+
+interface IThemeProps extends TThemeObject {
+	accentColor: string
+	iconSize: string
+	spacing: string
+	margin: string
+}
 
 /**
  * PageTitle component props interface
@@ -18,6 +26,8 @@ interface PageTitleProps {
 	center?: boolean
 	/** Optional SVG icon component to display alongside the title */
 	Icon?: ComponentType<SVGProps<SVGSVGElement>>
+	/** The component theme overrides  */
+	theme?: Partial<IThemeProps>
 }
 
 /**
@@ -58,16 +68,25 @@ interface PageTitleProps {
 const PageTitle = ({ className, section, title, description, Icon, center }: PageTitleProps) => {
 	const rootClassName = cn(styles.PageTitle, className, center && styles.center)
 
+	const defaultTheme: IThemeProps = {
+		accentColor: "red",
+		iconSize: "4rem",
+		margin: "3rem 0",
+		spacing: "2rem",
+	}
+
 	return (
-		<div data-testid="PageTitle" className={rootClassName}>
+		<div style={styleObject.build(defaultTheme, "PageTitle")} data-testid="PageTitle" className={rootClassName}>
 			{Icon && (
 				<div className={styles.icon}>
 					<Icon />
 				</div>
 			)}
 			<div>
-				<span>{section}</span>
-				<h1>{title}</h1>
+				<h1>
+					<span>{section}</span>
+					{title}
+				</h1>
 				{description && <p>{description}</p>}
 			</div>
 		</div>

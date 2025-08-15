@@ -1,3 +1,4 @@
+import { WarningIcon } from "@phosphor-icons/react"
 import type { ReactNode } from "react"
 import cn from "../../utils/cn"
 import style from "./ErrorMessage.module.css"
@@ -32,7 +33,7 @@ interface ErrorMessageProps {
 	error?: ErrorResponse
 	/** Custom error message to display */
 	message?: string
-	/** Icon element to display alongside error. Recommend react-icons */
+	/** Icon element to display alongside error. Default Phosphor icons WarningIcon */
 	icon?: ReactNode
 }
 
@@ -40,7 +41,7 @@ interface ErrorMessageProps {
  * ErrorMessage component displays error information in a structured format.
  * Handles various error response formats and displays field-specific validation errors.
  */
-const ErrorMessage = ({ className, label, error, message, icon }: ErrorMessageProps) => {
+const ErrorMessage = ({ className, label, error, message, icon = <WarningIcon /> }: ErrorMessageProps) => {
 	if (!(error || message)) return null
 
 	const rootClassName = cn(style.ErrorMessage, className)

@@ -78,18 +78,6 @@ describe("bcn utility", () => {
 		it("handles mixed single and space-separated strings", () => {
 			expect(cn("button", "primary large", "disabled")).toBe("button primary large disabled")
 		})
-
-		it("handles multiple spaces within strings", () => {
-			expect(cn("button  primary", "large   disabled")).toBe("button primary large disabled")
-		})
-
-		it("handles leading and trailing spaces", () => {
-			expect(cn(" button primary ", " large disabled ")).toBe("button primary large disabled")
-		})
-
-		it("handles tabs and other whitespace", () => {
-			expect(cn("button\tprimary", "large\ndisabled")).toBe("button primary large disabled")
-		})
 	})
 
 	describe("real-world usage patterns", () => {
@@ -131,10 +119,6 @@ describe("bcn utility", () => {
 	})
 
 	describe("edge cases", () => {
-		it("handles strings with only whitespace", () => {
-			expect(cn("   ", "button", "  ")).toBe("button")
-		})
-
 		it("handles very long class lists", () => {
 			const longClassList = Array(100).fill("class").join(" ")
 			expect(cn(longClassList)).toBe(Array(100).fill("class").join(" "))

@@ -45,19 +45,6 @@ type Argument = string | boolean | null | undefined | number
  * @since 0.1.0
  * @category Utilities
  */
-const cn = (...args: Argument[]): string => {
-	let result = ""
-
-	// biome-ignore lint/style/useForOf: For-of loops are typically 20-40% slower than traditional for loops for simple array operations like this.
-	for (let i = 0; i < args.length; i++) {
-		const arg = args[i]
-		if (arg) {
-			if (result) result += " "
-			result += arg
-		}
-	}
-
-	return result.split(/\s+/).filter(Boolean).join(" ")
-}
+const cn = (...args: Argument[]): string => args.filter(Boolean).join(" ")
 
 export default cn

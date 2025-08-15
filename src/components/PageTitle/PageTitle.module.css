@@ -1,12 +1,32 @@
 .PageTitle {
-	margin-top: 3rem;
-	margin-bottom: 3rem;
+	margin: var(--PageTitle-margin);
 	-webkit-user-select: none;
 	-moz-user-select: none;
 	user-select: none;
 	display: flex;
 	align-items: center;
-	gap: 1rem;
+	gap: var(--PageTitle-spacing);
+
+	&.center {
+		text-align: center;
+		display: flex;
+		flex-direction: column;
+
+		> div {
+			width: 100%;
+		}
+
+		.icon {
+			border: none;
+			padding: 0;
+		}
+	}
+
+	span {
+		color: var(--PageTitle-accent-color);
+		font-size: 0.75em;
+		display: block;
+	}
 
 	h1 {
 		margin: 0;
@@ -15,26 +35,22 @@
 	p {
 		display: block;
 		margin-top: 0.25rem;
-	}
-}
-
-.center {
-	text-align: center;
-
-	> div {
-		width: 100%;
+		line-height: 1.4;
 	}
 }
 
 .icon {
-	padding: 0.5rem 1rem 0.5rem 0;
-	width: 5rem;
+	flex-basis: var(--PageTitle-icon-size);
+	padding: 0 var(--PageTitle-spacing) 0 0;
+	width: var(--PageTitle-icon-size);
 	display: flex;
 	justify-content: center;
 	align-items: center;
+	border-right: 2px solid var(--PageTitle-accent-color);
 
 	svg {
-		height: 4rem;
-		min-width: 4rem;
+		fill: var(--PageTitle-accent-color);
+		height: var(--PageTitle-icon-size);
+		min-width: var(--PageTitle-icon-size);
 	}
 }

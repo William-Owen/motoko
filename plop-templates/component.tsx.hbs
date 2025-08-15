@@ -1,0 +1,47 @@
+// src/components/{{pascalCase name}}/{{pascalCase name}}.tsx
+{{#if hasForwardRef}}
+import type { ComponentPropsWithoutRef } from "react"
+import { forwardRef } from "react"
+{{else}}
+import type { ReactNode } from "react"
+{{/if}}
+import style from "./{{pascalCase name}}.module.css"
+
+{{#if hasForwardRef}}
+export interface {{pascalCase name}}Props extends ComponentPropsWithoutRef<"{{elementType}}"> {
+	/** Component children */
+	children?: ReactNode
+	/** Additional CSS class name */
+	className?: string
+}
+
+/**
+ * {{description}}
+ */
+export const {{pascalCase name}} = forwardRef<HTML{{properCase elementType}}Element, {{pascalCase name}}Props>(
+	({ children, className, ...props }, ref) => {
+		return (
+			<{{elementType}} ref={ref} className={[style.{{camelCase name}}, className].filter(Boolean).join(" ")} {...props}>
+				{children}
+			</{{elementType}}>
+		)
+	}
+)
+
+{{pascalCase name}}.displayName = "{{pascalCase name}}"
+{{else}}
+export interface {{pascalCase name}}Props {
+	/** Component children */
+	children?: ReactNode
+	/** Additional CSS class name */
+	className?: string
+}
+
+export const {{pascalCase name}} = ({ children, className }: {{pascalCase name}}Props) => {
+	return (
+		<div className={[style.{{camelCase name}}, className].filter(Boolean).join(" ")}>
+			{children}
+		</div>
+	)
+}
+{{/if}}
